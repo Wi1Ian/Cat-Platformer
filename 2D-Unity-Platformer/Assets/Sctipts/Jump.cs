@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Movment : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Movment : MonoBehaviour
     bool jumping;
     bool jumpCancelled;
     public Animator animator;
+    public float jumpBufferLength;
+    private float jumpBufferCount;
 
     void Start()
     {
@@ -26,11 +29,19 @@ public class Movment : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCount = jumpBufferLength;
+        }
+        else
+        {
+            jumpBufferCount -= Time.deltaTime;
+        }
+        if (jumpBufferCount >= 0 && canJump)
         {
             float jumpForce = Mathf.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * rb.gravityScale));
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-
+            jumpBufferCount = 0;
             jumping = true;
             jumpCancelled = false;
             jumpTime = 0;

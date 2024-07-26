@@ -19,7 +19,7 @@ public class Run : MonoBehaviour
         
         float x = Input.GetAxis("Horizontal");
         // float z = Input.GetAxis("Vertical");
-        animator.SetFloat("Speed", Mathf.Abs(x));
+        animator.SetFloat("Speed", x);
         Vector2 movement = new Vector2(x, 0);
         transform.Translate(movement * speed * Time.deltaTime);
     }
