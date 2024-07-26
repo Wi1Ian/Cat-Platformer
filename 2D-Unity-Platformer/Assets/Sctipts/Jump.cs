@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Movment : MonoBehaviour
 {
- public Rigidbody2D rb;
+    public Rigidbody2D rb;
     public float buttonTime = 0.5f;
     public float jumpHeight = 5;
     public float cancelRate = 100;
@@ -16,6 +16,7 @@ public class Movment : MonoBehaviour
     float jumpTime;
     bool jumping;
     bool jumpCancelled;
+    public Animator animator;
 
     void Start()
     {
@@ -33,12 +34,14 @@ public class Movment : MonoBehaviour
             jumping = true;
             jumpCancelled = false;
             jumpTime = 0;
+            animator.SetBool("isJumping",true);
             canJump = false; // Disable jumping
             StartCoroutine(JumpCooldown()); 
         }
 
         if (jumping)
         {
+            
             jumpTime += Time.deltaTime;
             if (Input.GetKeyUp(KeyCode.Space))
             {
@@ -61,7 +64,10 @@ public class Movment : MonoBehaviour
     }
     private IEnumerator JumpCooldown()
     {
+        
         yield return new WaitForSeconds(jumpCooldown);
         canJump = true; // Re-enable jumping after cooldown
+        animator.SetBool("isJumping", false);
     }
+    
 }
