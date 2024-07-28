@@ -21,6 +21,14 @@ public class Run : MonoBehaviour
         // float z = Input.GetAxis("Vertical");
         animator.SetFloat("Speed", x);
         Vector2 movement = new Vector2(x, 0);
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed = 7;
+        }
+        else
+        {
+            speed = 5;
+        }
         transform.Translate(movement * speed * Time.deltaTime);
     }
 }
